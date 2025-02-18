@@ -2,15 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { register, login, logout } from '@/lib/services/auth';
-import { dishPost, dishGet, dishGetOne, dishPut, dishDelete } from '@/lib/services/dish';
-import { userGet, userGetOne, userPut, userDelete } from '@/lib/services/user';
+import { userGet } from '@/lib/services/user';
 
 export default function ServicesPage() {
     const [username, setUsername] = useState('test_user');
     const [password, setPassword] = useState('1234');
     const [email, setEmail] = useState('test_user@gmail.com');
-    const [dishName, setDishName] = useState('');
-    const [response, setResponse] = useState<any>(null);
+    const [response, setResponse] = useState<unknown>();
     const [id, setId] = useState<string | null>(null)
 
     useEffect(() => {
@@ -40,15 +38,6 @@ export default function ServicesPage() {
         logout();
         setId(null);
         setResponse('Logged out successfully');
-    };
-
-    const handleDishPost = async () => {
-        try {
-            const result = await dishPost('dishes', { nom: dishName, ingredients: [], user: username });
-            setResponse(result);
-        } catch (error) {
-            setResponse(error);
-        }
     };
 
     const handleUserGet = async () => {

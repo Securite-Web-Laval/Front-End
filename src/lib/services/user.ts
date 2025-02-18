@@ -12,10 +12,6 @@ export const getAccessToken = () => {
     return Cookies.get('access_token');
 };
 
-const handleError = (error: any) => {
-    console.error('Une erreur est survenue:', error);
-};
-
 export const userGet = async (endpoint: string) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {

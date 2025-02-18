@@ -13,10 +13,6 @@ interface Register {
     email: string,
 }
 
-const handleError = (error: any) => {
-    console.error('Une erreur est survenue:', error);
-};
-
 export const register = async (endpoint: string, data: Register) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {

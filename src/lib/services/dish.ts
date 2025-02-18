@@ -31,10 +31,6 @@ export const getAccessToken = () => {
     return Cookies.get('access_token');
 };
 
-const handleError = (error: any) => {
-    console.error('Une erreur est survenue:', error);
-};
-
 export const dishPost = async (endpoint: string, data: Dish) => {
     const token = getAccessToken();
     try {
