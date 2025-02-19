@@ -1,23 +1,6 @@
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
+import NextAuth, { NextAuthOptions, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-interface User {
-    _id: string,
-    username: string,
-    email: string,
-    __v: number
-}
-
-interface Data {
-    user: User,
-    access_token: string,
-}
-
-interface Token extends JWT {
-    accessToken?: string;
-    user?: User;
-}
 
 const authOptions: NextAuthOptions = {
     providers: [
@@ -54,16 +37,17 @@ const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        async jwt({ token, data }: { token: Token; data?: Data }) {
-            if (data) {
-                token.accessToken = data.access_token;
-                token.user = data.user;
+        async jwt({ token, user }: { token: JWT; user?: User }) {
+            if (user) {
+                token.accessToken = user.access_token;
+                token.user = user.user;
             }
             return token;
         },
-        async session({ session, token }: { session: Session; token?: Token }) {
+        async session({ session, token }: { session: Session; token?: JWT }) {
             if (token) {
                 session.user = token.user;
+                session.access_token = token.accessToken;
             }
             return session;
         },
