@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useState } from 'react';
-import { register, login, logout } from '@/lib/services/auth';
+import { useState } from 'react';
+import { signIn,  useSession, signOut } from "next-auth/react";
+import { register } from '@/lib/services/auth';
 import { userGet } from '@/lib/services/user';
 
 export default function ServicesPage() {
@@ -9,11 +10,7 @@ export default function ServicesPage() {
     const [password, setPassword] = useState('1234');
     const [email, setEmail] = useState('test_user@gmail.com');
     const [response, setResponse] = useState<unknown>();
-    const [id, setId] = useState<string | null>(null)
-
-    useEffect(() => {
-        if (localStorage.getItem('id')) setId(localStorage.getItem('id'))
-    }, [])
+    const { data: session } = useSession();
 
     const handleRegister = async () => {
         try {
@@ -26,17 +23,18 @@ export default function ServicesPage() {
 
     const handleLogin = async () => {
         try {
-            const result = await login('auth/login', { username, password });
-            setResponse(result);
-            setId(localStorage.getItem('id'))
+            await signIn("credentials", {
+                redirect: false,
+                username,
+                password,
+            });
         } catch (error) {
             setResponse(error);
         }
     };
 
     const handleLogout = () => {
-        logout();
-        setId(null);
+        signOut()
         setResponse('Logged out successfully');
     };
 
@@ -55,7 +53,7 @@ export default function ServicesPage() {
 
             <div className="mb-4 flex-col">
                 <h2 className="text-xl">Authentication</h2>
-                {id ? (<button onClick={handleLogout} className="bg-red-500 text-white p-2 rounded ml-2">Logout</button>) : (
+                {session ? (<button onClick={handleLogout} className="bg-red-500 text-white p-2 rounded ml-2">Logout</button>) : (
                     <>
                         <input
                             type="text"
