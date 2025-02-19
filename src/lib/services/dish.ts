@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { useSession } from "next-auth/react";
 
 const API_URL = 'https://back-end-uhlyzq.fly.dev';
 
@@ -33,7 +32,7 @@ export const getAccessToken = () => {
 };
 
 export const dishPost = async (endpoint: string, data: Dish) => {
-    const token = useSession();
+    const token = getAccessToken();
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
             method: 'POST',
