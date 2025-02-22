@@ -31,8 +31,7 @@ export const getAccessToken = () => {
     return Cookies.get('access_token');
 };
 
-export const dishPost = async (endpoint: string, data: Dish) => {
-    const token = getAccessToken();
+export const dishPost = async (endpoint: string, token: string, data: Dish) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
             method: 'POST',
@@ -91,8 +90,7 @@ export const dishGetOne = async (endpoint: string) => {
     }
 };
 
-export const dishPut = async (endpoint: string, data: Dish) => {
-    const token = getAccessToken();
+export const dishPut = async (endpoint: string, token: string, data: Dish) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
             method: 'PUT',
@@ -113,8 +111,7 @@ export const dishPut = async (endpoint: string, data: Dish) => {
     }
 };
 
-export const dishDelete = async (endpoint: string) => {
-    const token = getAccessToken();
+export const dishDelete = async (endpoint: string, token: string) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
             method: 'DELETE',

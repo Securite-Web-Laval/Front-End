@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(req: NextRequest) {
     const token = await getToken({ req });
 
-    const protectedRoutes = ['/test', '/dashboard'];
+    const protectedRoutes = ['/test', '/dashboard', '/add-meal'];
 
     if (!token && protectedRoutes.some(route => req.nextUrl.pathname.startsWith(route))) {
         return NextResponse.redirect(new URL('/login', req.url));
@@ -15,5 +15,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/test/:path*', '/dashboard/:path*'],
+    matcher: ['/test/:path*', '/dashboard/:path*', '/add-meal/:path*'],
 };

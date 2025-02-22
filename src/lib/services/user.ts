@@ -50,8 +50,7 @@ export const userGetOne = async (endpoint: string) => {
     }
 };
 
-export const userPut = async (endpoint: string, data: User) => {
-    const token = getAccessToken();
+export const userPut = async (endpoint: string, token: string, data: User) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
             method: 'PUT',
@@ -72,8 +71,7 @@ export const userPut = async (endpoint: string, data: User) => {
     }
 };
 
-export const userDelete = async (endpoint: string) => {
-    const token = getAccessToken();
+export const userDelete = async (endpoint: string, token: string) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
             method: 'DELETE',
