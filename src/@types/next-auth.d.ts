@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { DefaultSession } from "next-auth"
 
 interface UserType {
@@ -12,15 +13,13 @@ declare module "next-auth" {
      * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
      */
     interface Session {
-        user?: User,
+        user?: UserType,
         access_token?: string,
     }
 
     interface User {
-        _id?: string,
-        username?: string,
-        email?: string,
-        __v?: number
+        user?: UserType,
+        access_token?: string,
     }
 }
 
@@ -29,6 +28,6 @@ declare module "next-auth/jwt" {
     interface JWT {
         /** OpenID ID Token */
         accessToken?: string;
-        user?: User;
+        user?: UserType;
     }
 }

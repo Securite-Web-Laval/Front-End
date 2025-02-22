@@ -1,6 +1,4 @@
 import Cookies from 'js-cookie';
-import { Session } from 'next-auth';
-import { useSession } from 'next-auth/react';
 
 const API_URL = 'https://back-end-uhlyzq.fly.dev';
 
