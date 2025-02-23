@@ -90,6 +90,25 @@ export const dishGetOne = async (endpoint: string) => {
     }
 };
 
+export const dishGetByUser = async (endpoint: string) => {
+    try {
+        const response = await fetch(`${API_URL}/${endpoint}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            const result = await response.json();
+            throw (`${result.message}`);
+        }
+        return await response.json();
+    } catch (error) {
+        // handleError(error);
+        throw error;
+    }
+};
+
 export const dishPut = async (endpoint: string, token: string, data: Dish) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {

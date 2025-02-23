@@ -50,7 +50,7 @@ export const userGetOne = async (endpoint: string) => {
     }
 };
 
-export const userPut = async (endpoint: string, token: string, data: User) => {
+export const userPut = async (endpoint: string, token: string, data: Partial<User>) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
             method: 'PUT',
