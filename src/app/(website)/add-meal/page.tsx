@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { useState } from "react";
 import { dishPost } from "@/lib/services/dish";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 interface Ingredient {
     nom: string;
@@ -10,7 +10,7 @@ interface Ingredient {
     unite: string;
 }
 
-const CreateDishPage = () => {
+export default function CreateDishPage() {
     const [dishName, setDishName] = useState<string>("");
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [ingredientName, setIngredientName] = useState<string>("");
@@ -52,6 +52,7 @@ const CreateDishPage = () => {
             nom: dishName,
             ingredients: ingredients,
             user: session?.user?._id || '',
+            _id: '',
         };
         console.log("Plat créé:", dish);
         const result = await dishPost('dishes', session?.access_token || '', dish);
@@ -123,5 +124,3 @@ const CreateDishPage = () => {
         </div>
     );
 };
-
-export default CreateDishPage;

@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from 'react';
 import { signIn } from "next-auth/react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -16,8 +16,12 @@ export default function LoginPage() {
                 username,
                 password,
             });
-            if (result && result.ok)
+            if (result && result.ok) {
+                console.log("Login successful");
                 router.push('/test')
+            } else {
+                console.log("Login failed");
+            }
         } catch (error) {
             console.log(error)
         }

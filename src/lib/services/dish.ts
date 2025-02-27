@@ -2,29 +2,30 @@ import Cookies from 'js-cookie';
 
 const API_URL = 'https://back-end-uhlyzq.fly.dev';
 
-interface Ingredient {
+export interface Ingredient {
     nom: string,
     quantite: number,
     unite: string,
 }
 
-interface Like {
+export interface Like {
     total: number,
     users: string[],
 }
 
-interface Comment {
+export interface Comment {
     user: string,
     note: number,
     description: string,
 }
 
-interface Dish {
-    nom : string,
+export interface Dish {
+    nom: string,
     ingredients: Ingredient[],
     user: string,
     like?: Like,
     comments?: [Comment],
+    _id: string,
 }
 
 export const getAccessToken = () => {
@@ -111,6 +112,25 @@ export const dishPut = async (endpoint: string, token: string, data: Dish) => {
     }
 };
 
+export const dishGetUser = async (endpoint: string) => {
+    try {
+        const response = await fetch(`${API_URL}/${endpoint}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            const result = await response.json();
+            throw (`${result.message}`);
+        }
+        return await response.json();
+    } catch (error) {
+        // handleError(error);
+        throw error;
+    }
+}
+
 export const dishDelete = async (endpoint: string, token: string) => {
     try {
         const response = await fetch(`${API_URL}/${endpoint}`, {
@@ -120,6 +140,48 @@ export const dishDelete = async (endpoint: string, token: string) => {
                 'Authorization': `Bearer ${token}`,
             },
         });
+        if (!response.ok) {
+            const result = await response.json();
+            throw (`${result.message}`);
+        }
+        return await response.json();
+    } catch (error) {
+        // handleError(error);
+        throw error;
+    }
+};
+
+export const dishLike = async (endpoint: string, token: string) => {
+    try {
+        const response = await fetch(`${API_URL}/${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        console.log("response like", response);
+        if (!response.ok) {
+            const result = await response.json();
+            throw (`${result.message}`);
+        }
+        return await response.json();
+    } catch (error) {
+        // handleError(error);
+        throw error;
+    }
+};
+
+export const dishGetLiked = async (endpoint: string, token: string) => {
+    try {
+        const response = await fetch(`${API_URL}/${endpoint}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        console.log("response liked", response);
         if (!response.ok) {
             const result = await response.json();
             throw (`${result.message}`);
