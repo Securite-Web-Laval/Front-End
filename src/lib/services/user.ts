@@ -1,12 +1,7 @@
+import { User } from '@/types/user';
 import Cookies from 'js-cookie';
 
 const API_URL = 'https://back-end-uhlyzq.fly.dev';
-
-interface User {
-    username: string,
-    password: string,
-    email: string,
-}
 
 export const getAccessToken = () => {
     return Cookies.get('access_token');

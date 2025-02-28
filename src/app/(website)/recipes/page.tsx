@@ -1,8 +1,9 @@
 'use client'
 
-import RecipeCard from "@/components/recipe-card";
+import RecipePreviewCard from "@/components/recipes/recipe-preview-card";
 import { Toggle } from "@/components/ui/toggle";
-import { Dish, dishGetLiked, dishGetUser } from "@/lib/services/dish";
+import { dishGetLiked, dishGetUser } from "@/lib/services/dish";
+import { Dish } from "@/types/recipe";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -37,7 +38,7 @@ export default function RecipePage() {
     if (session) {
       fetchRecipes();
     }
-  }, [session, viewLiked]);
+  },);
 
   const handleToggleChange = () => {
     setViewLiked(!viewLiked);
@@ -68,12 +69,11 @@ export default function RecipePage() {
       ) : recipes.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {recipes.map((recipe) => (
-            <RecipeCard
+            <RecipePreviewCard
               key={recipe._id}
-              imageSrc="/placeholder.svg"
               recipeName={recipe.nom}
               cookingTime="10 minutes"
-              recipeId={recipe._id}
+              recipeId={recipe._id || ''}
               onLikeUpdate={fetchRecipes}
             />
           ))}

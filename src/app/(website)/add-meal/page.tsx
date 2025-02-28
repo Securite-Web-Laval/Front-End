@@ -1,5 +1,8 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { dishPost } from "@/lib/services/dish";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -18,8 +21,10 @@ export default function CreateDishPage() {
     const [ingredientUnit, setIngredientUnit] = useState<string>("");
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const { data: session } = useSession();
+    const [cookingTime, setCookingTime] = useState<number>(0);
 
     const handleAddOrUpdateIngredient = () => {
+
         if (ingredientName && ingredientQuantity > 0 && ingredientUnit) {
             const newIngredient = { nom: ingredientName, quantite: ingredientQuantity, unite: ingredientUnit };
 
@@ -46,13 +51,15 @@ export default function CreateDishPage() {
         setEditingIndex(index);
     };
 
+
     const handleSubmit = async (e: React.FormEvent) => {
+        setCookingTime(Number(cookingTime));
         e.preventDefault();
         const dish = {
             nom: dishName,
             ingredients: ingredients,
             user: session?.user?._id || '',
-            _id: '',
+            cookingTime: cookingTime || 0,
         };
         console.log("Plat créé:", dish);
         const result = await dishPost('dishes', session?.access_token || '', dish);
@@ -60,12 +67,12 @@ export default function CreateDishPage() {
     };
 
     return (
-        <div className="p-8">
+        <div className="p-8 flex flex-col gap-4 max-w-4xl mx-auto">
             <h1 className="text-2xl mb-4">Créer un Plat</h1>
             <div onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block mb-2">Nom du Plat:</label>
-                    <input
+                    <Label className="block mb-2">Nom du Plat:</Label>
+                    <Input
                         type="text"
                         value={dishName}
                         onChange={(e) => setDishName(e.target.value)}
@@ -76,7 +83,7 @@ export default function CreateDishPage() {
 
                 <h2 className="text-xl mb-2">Ingrédients</h2>
                 <div className="flex mb-4">
-                    <input
+                    <Input
                         type="text"
                         placeholder="Nom de l'ingrédient"
                         value={ingredientName}
@@ -84,15 +91,15 @@ export default function CreateDishPage() {
                         className="border p-2 mr-2 text-black"
                         required
                     />
-                    <input
-                        type="number"
+                    <Input
+                        type="text"
                         placeholder="Quantité"
                         value={ingredientQuantity}
                         onChange={(e) => setIngredientQuantity(Number(e.target.value))}
                         className="border p-2 mr-2 text-black"
                         required
                     />
-                    <input
+                    <Input
                         type="text"
                         placeholder="Unité"
                         value={ingredientUnit}
@@ -100,9 +107,21 @@ export default function CreateDishPage() {
                         className="border p-2 mr-2 text-black"
                         required
                     />
-                    <button type="button" onClick={handleAddOrUpdateIngredient} className="bg-blue-500 text-white p-2 rounded">
+                    <Button type="button" onClick={handleAddOrUpdateIngredient} className="bg-blue-500 text-white p-2 rounded">
                         {editingIndex !== null ? "Modifier Ingrédient" : "Ajouter Ingrédient"}
-                    </button>
+                    </Button>
+                </div>
+
+                <h3 className="text-lg mb-2">Temps de cuisson:</h3>
+                <div className="mb-4 flex flex-row gap-2">
+                    <Input
+                        type="text"
+                        placeholder="Temps de cuisson"
+                        value={cookingTime}
+                        onChange={(e) => setCookingTime(Number(e.target.value))}
+                        className="w-1/4"
+                        required
+                    />
                 </div>
 
                 <h3 className="text-lg mb-2">Liste des Ingrédients:</h3>
@@ -110,16 +129,16 @@ export default function CreateDishPage() {
                     {ingredients.map((ingredient, index) => (
                         <li key={index} className="flex justify-between">
                             {ingredient.nom} - {ingredient.quantite} {ingredient.unite}
-                            <button type="button" onClick={() => handleEditIngredient(index)} className="text-blue-500 ml-2">
+                            <Button onClick={() => handleEditIngredient(index)} variant="outline">
                                 Modifier
-                            </button>
+                            </Button>
                         </li>
                     ))}
                 </ul>
 
-                <button type="button" className="bg-green-500 text-white p-2 rounded" onClick={handleSubmit}>
+                <Button type="button" className="bg-green-500 text-white p-2 rounded" onClick={handleSubmit}>
                     Créer le Plat
-                </button>
+                </Button>
             </div>
         </div>
     );
