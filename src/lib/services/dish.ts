@@ -1,32 +1,7 @@
+import { Dish } from '@/types/recipe';
 import Cookies from 'js-cookie';
-
 const API_URL = 'https://back-end-uhlyzq.fly.dev';
 
-export interface Ingredient {
-    nom: string,
-    quantite: number,
-    unite: string,
-}
-
-export interface Like {
-    total: number,
-    users: string[],
-}
-
-export interface Comment {
-    user: string,
-    note: number,
-    description: string,
-}
-
-export interface Dish {
-    nom: string,
-    ingredients: Ingredient[],
-    user: string,
-    like?: Like,
-    comments?: [Comment],
-    _id: string,
-}
 
 export const getAccessToken = () => {
     return Cookies.get('access_token');
@@ -48,7 +23,7 @@ export const dishPost = async (endpoint: string, token: string, data: Dish) => {
         }
         return await response.json();
     } catch (error) {
-        // handleError(error);
+        console.error("Error posting dish:", error);
         throw error;
     }
 };

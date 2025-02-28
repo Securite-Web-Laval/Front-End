@@ -16,10 +16,7 @@ const UnderlinedLink = ({ href, children }: { href: string; children: React.Reac
       isActive &&
       "after:content-[''] after:absolute after:bottom-[-5px] after:left-1/2 after:-translate-x-1/2 after:h-[3px] after:bg-green-500 after:rounded-full after:w-[85%]"
     )
-
-  const isActive = href === "/"
-    ? pathname === href
-    : pathname.startsWith(href)
+  const isActive = pathname === href
 
   return (
     <Link href={href} legacyBehavior passHref>

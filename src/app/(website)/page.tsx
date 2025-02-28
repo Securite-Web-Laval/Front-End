@@ -1,6 +1,7 @@
 'use client'
-import RecipeCard from "@/components/recipe-card";
-import { Dish, dishGet } from "@/lib/services/dish";
+import RecipePreviewCard from "@/components/recipes/recipe-preview-card";
+import { dishGet } from "@/lib/services/dish";
+import { Dish } from "@/types/recipe";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -19,9 +20,9 @@ export default function Home() {
 
   return (
     <main>
-      <div className="flex flex-grid-cols-3 gap-4 items-center justify-center h-screen">
+      <div className="flex flex-wrap gap-4 items-center justify-center p-12">
         {recipes.map((recipe, index) => (
-          <RecipeCard key={index} imageSrc="/placeholder.svg" recipeName={recipe.nom} cookingTime="10 minutes" recipeId={recipe._id} />
+          <RecipePreviewCard key={index} recipeName={recipe.nom} cookingTime={recipe.cookingTime ? recipe.cookingTime.toString() : '--:--'} recipeId={recipe._id || ''} />
         ))}
       </div>
     </main>
