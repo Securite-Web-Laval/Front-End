@@ -61,9 +61,7 @@ export default function CreateDishPage() {
             user: session?.user?._id || '',
             cookingTime: cookingTime || 0,
         };
-        console.log("Plat créé:", dish);
-        const result = await dishPost('dishes', session?.access_token || '', dish);
-        console.log(result);
+        await dishPost('dishes', session?.access_token || '', dish);
     };
 
     return (

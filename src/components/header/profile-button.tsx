@@ -4,7 +4,7 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export function ProfileButton({ username, email, userId }: { username: string | undefined; email: string | undefined; userId: string | undefined }) {
+export function ProfileButton({ username, email }: { username: string | undefined; email: string | undefined; userId: string | undefined }) {
   const router = useRouter()
 
   if (!username) {
@@ -37,16 +37,11 @@ export function ProfileButton({ username, email, userId }: { username: string | 
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href={`/profile/${userId}`}>
+        <Link href={`/profile`}>
           <DropdownMenuItem>
             Mon profile
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>
-          <Link href="/settings">
-            Paramètres
-          </Link>
-        </DropdownMenuItem>
         <DropdownMenuItem>
           <Link href="/login" onClick={() => handleLogout()}>
             Déconnexion

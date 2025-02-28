@@ -41,14 +41,12 @@ export default function LoginPage() {
             });
 
             if (loginResult && loginResult.ok) {
-                console.log("Login successful");
                 router.push('/')
             } else {
-                console.log("Login failed");
                 setErrors({ password: "Identifiants incorrects" });
             }
+            // eslint-disable-next-line
         } catch (error) {
-            console.log(error)
             setErrors({ password: "Une erreur est survenue" });
         }
     };

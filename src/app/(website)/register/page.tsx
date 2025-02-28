@@ -45,8 +45,8 @@ export default function RegisterPage() {
 
             await register('auth/register', { username, password, email });
             router.push('/login')
+            // eslint-disable-next-line
         } catch (error) {
-            console.log(error);
             setErrors({ password: "Une erreur est survenue lors de l'inscription" });
         }
     };

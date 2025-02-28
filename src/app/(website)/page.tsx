@@ -16,8 +16,6 @@ export default function Home() {
     fetchRecipes();
   }, []);
 
-  console.log(recipes);
-
   return (
     <main>
       <div className="flex flex-wrap gap-4 items-center justify-center p-12">

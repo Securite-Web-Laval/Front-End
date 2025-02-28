@@ -29,13 +29,10 @@ export default function RecipePreviewCard({ recipeName, cookingTime, labels = []
 
       try {
         const recipeDetails = await dishGetOne(`dishes/${recipeId}`)
-        console.log("Recipe details:", recipeDetails);
 
         if (recipeDetails && recipeDetails.like) {
           setLikesCount(recipeDetails.like.total || 0)
 
-          console.log("Like users array:", JSON.stringify(recipeDetails.like.users));
-          console.log("Current user ID:", session.user._id);
 
           const userHasLiked = Array.isArray(recipeDetails.like.users) &&
             recipeDetails.like.users.some(userId =>
@@ -43,7 +40,6 @@ export default function RecipePreviewCard({ recipeName, cookingTime, labels = []
               (typeof userId === 'object' && userId._id === session.user._id)
             );
 
-          console.log(`User ${session.user._id} has liked: ${userHasLiked}`);
           setIsLiked(userHasLiked);
         }
       } catch (error) {
@@ -65,12 +61,9 @@ export default function RecipePreviewCard({ recipeName, cookingTime, labels = []
     }
 
     try {
-      console.log(`Liking dish ${recipeId} with token ${session.access_token?.substring(0, 10)}...`);
       const response = await dishLike(`dishes/like/${recipeId}`, session.access_token || '');
-      console.log('Like response:', response);
 
       if (response) {
-        console.log("Like response structure:", JSON.stringify(response));
 
         if (response.like && response.like.users) {
           const newIsLiked = Array.isArray(response.like.users) &&
@@ -80,14 +73,12 @@ export default function RecipePreviewCard({ recipeName, cookingTime, labels = []
               (typeof userId === 'object' && userId._id === session?.user?._id)
             );
 
-          console.log(`After like action, user liked status: ${newIsLiked}`);
           setIsLiked(newIsLiked);
           setLikesCount(response.like.total || 0);
         } else {
           const newIsLiked = !isLiked;
           setIsLiked(newIsLiked);
           setLikesCount(prev => newIsLiked ? prev + 1 : prev - 1);
-          console.log(`Fallback: toggling like status to ${newIsLiked}`);
         }
       }
 

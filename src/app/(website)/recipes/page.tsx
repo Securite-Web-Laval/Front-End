@@ -20,11 +20,9 @@ export default function RecipePage() {
     try {
       if (viewLiked) {
         const likedRecipes = await dishGetLiked(`dishes/liked`, session.access_token || '');
-        console.log("likedRecipes", likedRecipes);
         setRecipes(likedRecipes);
       } else {
         const userRecipes = await dishGetUser(`dishes/user/${session.user._id}`);
-        console.log("userRecipes", userRecipes);
         setRecipes(userRecipes);
       }
     } catch (error) {
@@ -33,12 +31,12 @@ export default function RecipePage() {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     if (session) {
       fetchRecipes();
     }
-  },);
+    // eslint-disable-next-line
+  }, [session, viewLiked]);
 
   const handleToggleChange = () => {
     setViewLiked(!viewLiked);

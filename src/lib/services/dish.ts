@@ -135,7 +135,6 @@ export const dishLike = async (endpoint: string, token: string) => {
                 'Authorization': `Bearer ${token}`,
             },
         });
-        console.log("response like", response);
         if (!response.ok) {
             const result = await response.json();
             throw (`${result.message}`);
@@ -156,7 +155,6 @@ export const dishGetLiked = async (endpoint: string, token: string) => {
                 'Authorization': `Bearer ${token}`,
             },
         });
-        console.log("response liked", response);
         if (!response.ok) {
             const result = await response.json();
             throw (`${result.message}`);

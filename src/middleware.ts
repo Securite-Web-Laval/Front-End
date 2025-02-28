@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function middleware(req: NextRequest) {
     const token = await getToken({ req });
 
-    const protectedRoutes = ['/test', '/dashboard', '/add-meal', '/recipes'];
+    const protectedRoutes = ['/test', '/dashboard', '/add-meal', '/recipes', '/profile'];
 
     if (!token && protectedRoutes.some(route => req.nextUrl.pathname.startsWith(route))) {
         return NextResponse.redirect(new URL('/login', req.url));
@@ -15,5 +15,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/test/:path*', '/dashboard/:path*', '/add-meal/:path*', '/recipes/:path*'],
+    matcher: ['/test/:path*', '/dashboard/:path*', '/add-meal/:path*', '/recipes/:path*', '/profile/:path*'],
 };
