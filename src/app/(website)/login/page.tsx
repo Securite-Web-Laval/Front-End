@@ -41,6 +41,7 @@ export default function LoginPage() {
             });
 
             if (loginResult && loginResult.ok) {
+                router.refresh()
                 router.push('/')
             } else {
                 setErrors({ password: "Identifiants incorrects" });
